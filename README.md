@@ -9,11 +9,10 @@ SnapWitch is an Android app that allows users to schedule automatic toggling of 
 - **User-Friendly Interface** – Simple and intuitive UI with an orange-accented theme.
 
 ## 📱 Screenshots
-![Screenshot_20250218-065243](https://github.com/user-attachments/assets/6ef9e0d9-3f34-46e4-a8c5-2e15be1d0027)
 ![Screenshot_20250218-065114](https://github.com/user-attachments/assets/a1321ac0-14aa-4010-827a-32a81c85a907)
-![Screenshot_20250218-065443](https://github.com/user-attachments/assets/9dc2f45d-fc45-4653-8a43-f1b1bee19084)
 ![Screenshot_20250218-065123](https://github.com/user-attachments/assets/90f5924e-a833-40a9-ae89-8cdd62074558)
 ![Screenshot_20250218-065158](https://github.com/user-attachments/assets/e6806eec-6433-4482-90f4-2eeea61732db)
+![Screenshot_20250218-065243](https://github.com/user-attachments/assets/6ef9e0d9-3f34-46e4-a8c5-2e15be1d0027)
 
 ## 🛠️ Tech Stack
 - **Jetpack Compose** – Modern Android UI framework.
@@ -23,7 +22,8 @@ SnapWitch is an Android app that allows users to schedule automatic toggling of 
 
 ## 📥 Installation
 1. Clone the repository:
-   ```sh   git clone https://github.com/minahtoh/SnapWitch.git
+   ```sh
+    git clone https://github.com/minahtoh/SnapWitch.git
    ```
 2. Open in **Android Studio**.
 3. Run the app on an **emulator or physical device**.
