@@ -102,7 +102,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-@Preview(widthDp = 320)
+// @Preview(widthDp = 320)
 @Composable
 fun NotificationsScreen(
     modifier: Modifier = Modifier,
@@ -326,7 +326,7 @@ fun NotificationsScreen(
 
 
 
-@Preview(widthDp = 320)
+//@Preview(widthDp = 320)
 @Composable
 fun NotificationsTopBar(
     onDeleteIconClicked: ()-> Unit = {},

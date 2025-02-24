@@ -90,7 +90,6 @@ class SnapWitchRepository(context: Context) {
 
         }
 
-        // Register WiFi receiver
         repoContext.registerReceiver(
             wifiReceiver,
             IntentFilter().apply {
@@ -99,8 +98,6 @@ class SnapWitchRepository(context: Context) {
             }
         )
 
-
-        // Register Bluetooth receiver
         repoContext.registerReceiver(
             bluetoothReceiver,
             IntentFilter().apply {
@@ -114,7 +111,4 @@ class SnapWitchRepository(context: Context) {
         }
 
     }
-
-
-
 }

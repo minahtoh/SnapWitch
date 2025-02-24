@@ -48,7 +48,7 @@ class SnapWitchDataStore(private val context: Context) {
 
     val notificationsFlow: Flow<List<NotificationData>> = context.dataStore.data
         .map { prefs ->
-            val json = prefs[NOTIFICATIONS_KEY] as? String ?: "[]" // 🔹 Explicitly cast to String
+            val json = prefs[NOTIFICATIONS_KEY] as? String ?: "[]"
             try {
                 Json.decodeFromString<List<NotificationData>>(json)
             } catch (e: Exception) {

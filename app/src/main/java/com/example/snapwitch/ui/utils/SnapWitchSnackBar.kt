@@ -69,28 +69,6 @@ data class SnackbarData(
 )
 
 @Composable
-fun SnapWitchSnackbarHost(
-    modifier: Modifier = Modifier,
-    snackbarData: SnackbarData? = null,
-    onDismiss: () -> Unit
-) {
-    AnimatedVisibility(
-        visible = snackbarData != null,
-        enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
-        exit = slideOutVertically(targetOffsetY = { it }) + fadeOut(),
-        modifier = modifier
-    ) {
-        snackbarData?.let { data ->
-            SnapWitchSnackbar(
-                snackbarData = data,
-                onDismiss = onDismiss,
-                modifier = Modifier
-            )
-        }
-    }
-}
-
-@Composable
 fun SnapWitchSnackbar(
     snackbarData: SnackbarData,
     onDismiss: () -> Unit,

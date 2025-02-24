@@ -49,6 +49,7 @@ class SnapWitchViewModel(
             _isReady.value = true
             checkNetworkStatus(snapWitchRepository)
             checkBluetoothAndWifiStatus(snapWitchRepository)
+
             dataStoreManager.notificationsFlow.collect { notificationsSet ->
                 val oldList = _notificationsList.value.size
                 val newList = notificationsSet.toList().reversed()
@@ -58,9 +59,8 @@ class SnapWitchViewModel(
                 if (newList.size > oldList){
                     newNotificationAdded.value = true
                 }
-
-                Log.d("innit", "notificationsList: $notificationsSet")
             }
+
         }
     }
 
@@ -70,7 +70,6 @@ class SnapWitchViewModel(
             val mobileUsage = PhoneDataUsageManager(context).formatDataSize(dataUsage.mobileTotalBytes)
             val wifiUsage = PhoneDataUsageManager(context).formatDataSize(dataUsage.wifiTotalBytes)
             _dataUsage.value = mobileUsage
-            Log.d("DATAUSAGE", "getDataUsage: mobile usage $mobileUsage")
 
         }
     }
@@ -184,8 +183,7 @@ class SnapWitchViewModel(
                 nextDayInMillis,
                 endPendingIntent
             )
-            val day = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(nextDayInMillis)
-            Log.d("ONREPEAT", "scheduleActionOnRepeatDays: repeated on $day")
+
         }catch (e: PendingIntent.CanceledException) {
             Log.e("PendingIntent", "PendingIntent was canceled: ${e.message}")
         }
@@ -229,9 +227,8 @@ class SnapWitchViewModel(
                     endPendingIntent
                 )
                 val alarmSet = alarmManager.nextAlarmClock
-                Log.d("NotificationDebug", "Alarm set? ${alarmSet?.triggerTime}")
-            } // Trigger the PendingIntent
-            Log.d("SAVEMEEE", "scheduleAction: ${startTime}")
+            }
+
         } catch (e: PendingIntent.CanceledException) {
             Log.e("PendingIntent", "PendingIntent was canceled: ${e.message}")
         }
