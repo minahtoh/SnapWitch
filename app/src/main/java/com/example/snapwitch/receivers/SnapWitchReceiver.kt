@@ -15,6 +15,7 @@ import com.example.snapwitch.notifications.SnapWitchDataStore
 import com.example.snapwitch.notifications.SnapWitchNetworkNotification
 import com.example.snapwitch.notifications.SnapWitchWifiNotification
 import com.example.snapwitch.notifications.dataStore
+import com.example.snapwitch.ui.presentation.logToFirebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,6 @@ import kotlin.math.log
 
 
 class SnapWitchReceiver: BroadcastReceiver() {
-
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.getStringExtra("ACTION_TYPE")
@@ -48,7 +48,7 @@ class SnapWitchReceiver: BroadcastReceiver() {
                     message = "Scheduler time due! adjust status now",
                     icon = "success"
                 )
-
+                logToFirebase(schedulerType = "wifi", "notificationFired")
             }
             "TOGGLE_BLUETOOTH_NOTIFICATION" -> context?.let {
                 toggleBluetoothFromNotification(it)
@@ -58,6 +58,7 @@ class SnapWitchReceiver: BroadcastReceiver() {
                     message = "Scheduler time due! adjust status now",
                     icon = "success"
                 )
+                logToFirebase(schedulerType = "bluetooth", "notificationFired")
             }
             "TOGGLE_DATA_NOTIFICATION" -> context?.let {
                 toggleDataFromNotification(it)
@@ -67,6 +68,7 @@ class SnapWitchReceiver: BroadcastReceiver() {
                     message = "Scheduler time due! adjust status now",
                     icon = "success"
                 )
+                logToFirebase(schedulerType = "data", "notificationFired")
             }
             }
         }

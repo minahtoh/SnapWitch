@@ -1,5 +1,6 @@
 package com.example.snapwitch.ui.presentation
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -51,11 +52,14 @@ import androidx.compose.ui.window.Dialog
 import com.example.snapwitch.ui.utils.PopupSnackbarHost
 import com.example.snapwitch.ui.utils.rememberSnackbarState
 import com.example.snapwitch.viewmodel.SnapWitchViewModel
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(widthDp = 320, heightDp = 840)
@@ -147,13 +151,11 @@ fun SchedulerScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState()),
-                // verticalArrangement = Arrangement.SpaceBetween
             ) {
 
                 Spacer(modifier = Modifier.height(10.dp))
                 Column(
                     modifier = Modifier
-                        //.weight(0.5f)
                         .padding(10.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
@@ -232,6 +234,7 @@ fun SchedulerScreen(
                                 )
                                 if (repeatDays.isEmpty()){
                                     saveNotification(schedulerType)
+                                    logToFirebase(schedulerType,"setWithNoRepeat")
                                 }else{
                                     repeatDays.forEach {
                                         snapWitchViewModel.scheduleActionOnRepeatDays(
@@ -241,6 +244,7 @@ fun SchedulerScreen(
                                         )
                                     }
                                     saveNotificationOnRepeat(schedulerType,repeatDays)
+                                    logToFirebase(schedulerType,"setWithRepeatOn${repeatDays}")
                                 }
 
                                 delay(500)
@@ -280,6 +284,7 @@ fun SchedulerScreen(
 
                                     if (repeatDays.isEmpty()){
                                         saveNotification(schedulerType)
+                                        logToFirebase(schedulerType,"setWithNoRepeat")
                                     }else{
                                         repeatDays.forEach {
                                             snapWitchViewModel.scheduleActionOnRepeatDays(
@@ -289,6 +294,7 @@ fun SchedulerScreen(
                                             )
                                         }
                                         saveNotificationOnRepeat(schedulerType,repeatDays)
+                                        logToFirebase(schedulerType,"setWithRepeatOn${repeatDays}")
                                     }
                                     delay(500)
                                     onCancelButtonClick()
@@ -613,6 +619,13 @@ fun SnapWitchTimePickerDialog(
     }
 }
 
+fun logToFirebase(schedulerType: String, actionType: String){
+    val analytics = Firebase.analytics
+    val bundle = Bundle().apply {
+        putString("schedulerTypeSet", schedulerType )
+    }
+    analytics.logEvent(actionType, bundle)
+}
 
 
 

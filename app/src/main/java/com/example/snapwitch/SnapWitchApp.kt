@@ -9,6 +9,9 @@ import android.os.Build
 import com.example.snapwitch.notifications.SnapWitchBluetoothNotification
 import com.example.snapwitch.notifications.SnapWitchNetworkNotification
 import com.example.snapwitch.notifications.SnapWitchWifiNotification
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 
 class SnapWitchApp:Application() {
     lateinit var connectivityManager: ConnectivityManager
@@ -17,6 +20,8 @@ class SnapWitchApp:Application() {
         super.onCreate()
         createNotificationChannel(this)
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        Firebase.analytics
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
     }
 
     private fun createNotificationChannel(context: Context) {

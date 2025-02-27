@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "74834134220",
+    "project_id": "snapwitch-861bf",
+    "storage_bucket": "snapwitch-861bf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74834134220:android:0cdf76bcfbcd4f4a4dae69",
+        "android_client_info": {
+          "package_name": "com.example.snapwitch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmSowKnU4cdufpL1JvxLpT-Xk_YI4gqc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
