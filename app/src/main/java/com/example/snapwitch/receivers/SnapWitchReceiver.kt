@@ -7,7 +7,6 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
-import androidx.datastore.dataStoreFile
 import androidx.datastore.preferences.core.edit
 import com.example.snapwitch.notifications.NotificationData
 import com.example.snapwitch.notifications.SnapWitchBluetoothNotification
@@ -15,6 +14,7 @@ import com.example.snapwitch.notifications.SnapWitchDataStore
 import com.example.snapwitch.notifications.SnapWitchNetworkNotification
 import com.example.snapwitch.notifications.SnapWitchWifiNotification
 import com.example.snapwitch.notifications.dataStore
+import com.example.snapwitch.ui.presentation.logFeatureUsage
 import com.example.snapwitch.ui.presentation.logToFirebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlin.math.log
 
 
 class SnapWitchReceiver: BroadcastReceiver() {
@@ -48,7 +47,9 @@ class SnapWitchReceiver: BroadcastReceiver() {
                     message = "Scheduler time due! adjust status now",
                     icon = "success"
                 )
-                logToFirebase(schedulerType = "wifi", "notificationFired")
+
+                logFeatureUsage(context,"Wifi")
+                logToFirebase(schedulerType = "Wifi", "notificationFired")
             }
             "TOGGLE_BLUETOOTH_NOTIFICATION" -> context?.let {
                 toggleBluetoothFromNotification(it)
@@ -58,7 +59,9 @@ class SnapWitchReceiver: BroadcastReceiver() {
                     message = "Scheduler time due! adjust status now",
                     icon = "success"
                 )
-                logToFirebase(schedulerType = "bluetooth", "notificationFired")
+
+                logFeatureUsage(context,"Bluetooth")
+                logToFirebase(schedulerType = "Bluetooth", "notificationFired")
             }
             "TOGGLE_DATA_NOTIFICATION" -> context?.let {
                 toggleDataFromNotification(it)
@@ -68,7 +71,9 @@ class SnapWitchReceiver: BroadcastReceiver() {
                     message = "Scheduler time due! adjust status now",
                     icon = "success"
                 )
-                logToFirebase(schedulerType = "data", "notificationFired")
+
+                logFeatureUsage(context,"Network")
+                logToFirebase(schedulerType = "Network", "notificationFired")
             }
             }
         }

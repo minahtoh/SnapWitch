@@ -1,5 +1,6 @@
 package com.example.snapwitch.ui.presentation
 
+import android.content.Context
 import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,11 +50,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.snapwitch.db.SnapWitchFeatureDatabase
+import com.example.snapwitch.ui.models.FeatureUsage
 import com.example.snapwitch.ui.utils.PopupSnackbarHost
 import com.example.snapwitch.ui.utils.rememberSnackbarState
 import com.example.snapwitch.viewmodel.SnapWitchViewModel
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -234,7 +239,9 @@ fun SchedulerScreen(
                                 )
                                 if (repeatDays.isEmpty()){
                                     saveNotification(schedulerType)
+                                   // logFeatureUsage(context,schedulerType)
                                     logToFirebase(schedulerType,"setWithNoRepeat")
+
                                 }else{
                                     repeatDays.forEach {
                                         snapWitchViewModel.scheduleActionOnRepeatDays(
@@ -284,6 +291,7 @@ fun SchedulerScreen(
 
                                     if (repeatDays.isEmpty()){
                                         saveNotification(schedulerType)
+                                     //   logFeatureUsage(context,schedulerType)
                                         logToFirebase(schedulerType,"setWithNoRepeat")
                                     }else{
                                         repeatDays.forEach {
@@ -548,7 +556,7 @@ fun RepeatSection(
             }
 
         }
-    }
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -627,5 +635,13 @@ fun logToFirebase(schedulerType: String, actionType: String){
     analytics.logEvent(actionType, bundle)
 }
 
+fun logFeatureUsage(context: Context, feature: String) {
+    val db = SnapWitchFeatureDatabase.getDatabase(context)
+    val dao = db.getDao()
+
+    CoroutineScope(Dispatchers.IO).launch {
+        dao.insertUsage(FeatureUsage(settingName = feature, timeStamp = System.currentTimeMillis()))
+    }
+}
 
 
