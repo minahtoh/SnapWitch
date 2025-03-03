@@ -40,6 +40,7 @@ import com.example.snapwitch.ui.presentation.HomeScreen
 import com.example.snapwitch.ui.presentation.MenuScreen
 import com.example.snapwitch.ui.presentation.NotificationsScreen
 import com.example.snapwitch.ui.presentation.SchedulerScreen
+import com.example.snapwitch.ui.presentation.StatisticsScreen
 import com.example.snapwitch.ui.presentation.StatusBarProvider
 import com.example.snapwitch.ui.theme.SnapWitchTheme
 import com.example.snapwitch.viewmodel.SnapWitchRepository
@@ -170,7 +171,10 @@ fun SnapWitchNavHost(
                     navigateToBluetoothScheduler = {
                         navHostController.navigateToSchedulerScreen("Bluetooth")
                     },
-                    toggleDarkMode = toggleDarkMode
+                    toggleDarkMode = toggleDarkMode,
+                    onDatesRowClick = {
+                        navHostController.navigateSingleTopTo(route = StatisticsScreen.route)
+                    }
                 )
             }
 
@@ -245,6 +249,13 @@ fun SnapWitchNavHost(
                     onDeleteIconClicked = {
                         appViewModel.clearNotification()
                     }
+                )
+            }
+
+            composable(route = StatisticsScreen.route){
+                StatisticsScreen(
+                    snapWitchViewModel = appViewModel,
+                    onBackIconClick = { navHostController.popBackStack() }
                 )
             }
         }

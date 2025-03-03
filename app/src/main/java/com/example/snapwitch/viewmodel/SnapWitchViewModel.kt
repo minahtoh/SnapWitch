@@ -8,12 +8,15 @@ import android.provider.Settings
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.snapwitch.db.SnapWitchFeatureDatabase
 import com.example.snapwitch.notifications.NotificationData
 import com.example.snapwitch.notifications.SnapWitchDataStore
 import com.example.snapwitch.receivers.SnapWitchReceiver
+import com.example.snapwitch.ui.models.FeatureUsageDaily
 import com.example.snapwitch.ui.utils.PhoneDataUsageManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -41,6 +44,10 @@ class SnapWitchViewModel(
     private val _savedTime = MutableStateFlow(0L)
     val savedTime = _savedTime.asStateFlow()
     val newNotificationAdded = MutableStateFlow(false)
+    private val _featureUsageMap = MutableStateFlow<Map<String, List<FeatureUsageDaily>>>(emptyMap())
+    val featureUsageMap = _featureUsageMap.asStateFlow()
+
+
 
 
     init {
@@ -255,6 +262,22 @@ class SnapWitchViewModel(
     fun goToDataUsage(context: Context){
         val intent = Intent(Settings.ACTION_DATA_USAGE_SETTINGS)
         context.startActivity(intent)
+    }
+
+    fun getFeatureUsageStats( context: Context){
+        val db = SnapWitchFeatureDatabase.getDatabase(context)
+        val dao = db.getDao()
+        viewModelScope.launch {
+            val networkList = dao.getDailyFeatureUsage("Network")
+            val bluetoothList = dao.getDailyFeatureUsage("Bluetooth")
+            val wifiList = dao.getDailyFeatureUsage("Wifi")
+
+            _featureUsageMap.value = mapOf(
+                "Bluetooth" to bluetoothList,
+                "Network" to networkList,
+                "Wifi" to wifiList
+            )
+        }
     }
 
 

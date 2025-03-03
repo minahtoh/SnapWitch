@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.callbackFlow
 class SnapWitchRepository(context: Context) {
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val repoContext = context
+    private val repoContext = context
 
     private val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
 

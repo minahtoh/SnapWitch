@@ -471,3 +471,63 @@ fun SnapWitchClockIcon(
         )
     }
 }
+
+@Preview
+@Composable
+fun SnapWitchStatisticsIcon(
+    modifier: Modifier = Modifier,
+    onClick : ()-> Unit = {},
+    size: Dp = 40.dp,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceTint,
+    contentColor: Color = MaterialTheme.colorScheme.secondary
+){
+    val lineWidth = size - 35.dp
+    val strokeWidth = size/16
+    val backWidth = size - 30.dp
+    val movement = 3.dp
+    Canvas(modifier = modifier
+        .size(size)
+        .clip(CircleShape)
+        .clickable {
+            onClick()
+        }
+        //.padding(10.dp)
+    ){
+        drawLine(
+            start = Offset(center.x - backWidth.toPx(), center.y + backWidth.toPx()),
+            end = Offset(center.x - backWidth.toPx(), center.y - backWidth.toPx()),
+            color = contentColor,
+            strokeWidth = strokeWidth.toPx(),
+            cap = StrokeCap.Round
+
+        )
+        drawLine(
+            start = Offset(center.x + backWidth.toPx(), center.y + backWidth.toPx()),
+            end = Offset(center.x - backWidth.toPx(), center.y + backWidth.toPx()),
+            color = contentColor,
+            strokeWidth = strokeWidth.toPx(),
+            cap = StrokeCap.Round
+        )
+        drawLine(
+            start = Offset(center.x + (lineWidth/4).toPx() - movement.toPx(), center.y - (lineWidth).toPx()),
+            end = Offset(center.x - (lineWidth/2).toPx() - movement.toPx(), center.y + (lineWidth/4).toPx()),
+            color = contentColor,
+            strokeWidth = strokeWidth.toPx(),
+            cap = StrokeCap.Round
+        )
+        drawLine(
+            start = Offset(center.x + (lineWidth/4).toPx() - movement.toPx(), center.y - (lineWidth).toPx()),
+            end = Offset(center.x + (lineWidth).toPx() - movement.toPx(), center.y + (lineWidth/4).toPx()),
+            color = contentColor,
+            strokeWidth = strokeWidth.toPx(),
+            cap = StrokeCap.Round
+        )
+        drawLine(
+            start = Offset(center.x + (lineWidth * 2 ).toPx() - movement.toPx(), center.y - (lineWidth).toPx()),
+            end = Offset(center.x + (lineWidth).toPx() - movement.toPx(), center.y + (lineWidth/4).toPx()),
+            color = contentColor,
+            strokeWidth = strokeWidth.toPx(),
+            cap = StrokeCap.Round
+        )
+    }
+}

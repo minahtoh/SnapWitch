@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -93,6 +94,7 @@ fun HomeScreen(
     onHomeIconClick : () -> Unit = {},
     onMenuIconClick : () -> Unit = {},
     onNotificationsIconClick : () -> Unit = {},
+    onDatesRowClick: () -> Unit,
     snapWitchViewModel: SnapWitchViewModel,
     navigateToBluetoothScheduler: () -> Unit = {},
     navigateToDataScheduler: () -> Unit = {},
@@ -142,6 +144,7 @@ fun HomeScreen(
             ) {
                 DateSection(
                     modifier = Modifier.fillMaxWidth(),
+                    onDatesRowClick = { onDatesRowClick() }
                 )
                 Spacer(modifier = Modifier.height(5.dp))
 
@@ -249,7 +252,8 @@ fun getCurrentWeekFromDate(date: LocalDate): List<LocalDate> {
 @Composable
 fun DateCirclesRow(
     dates: List<LocalDate> =  getCurrentWeekFromDate(LocalDate.now()),
-    currentDate: String = getTodayDate()
+    currentDate: String = getTodayDate(),
+    onDatesRowClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -270,7 +274,7 @@ fun DateCirclesRow(
                             else MaterialTheme.colorScheme.inversePrimary
                         )
                         .clickable {
-
+                            onDatesRowClick()
                         },
                     contentAlignment = Alignment.Center
                 ) {
@@ -300,7 +304,10 @@ fun getTodayDate() : String{
 
 
 @Composable
-fun DateSection(modifier: Modifier){
+fun DateSection(
+    modifier: Modifier,
+    onDatesRowClick: () -> Unit
+){
     val days = listOf("S","M","T","W","T","F","S")
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -308,7 +315,7 @@ fun DateSection(modifier: Modifier){
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().clickable { onDatesRowClick() },
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             days.forEach {
@@ -325,7 +332,9 @@ fun DateSection(modifier: Modifier){
                 }
             }
         }
-        DateCirclesRow()
+        DateCirclesRow(
+            onDatesRowClick = { onDatesRowClick() }
+        )
     }
 }
 
@@ -663,7 +672,8 @@ fun SnapWitchBottomBar(
 fun HomeScreenPreview(snapWitchRepository: SnapWitchRepository, dataStore: SnapWitchDataStore){
     SnapWitchTheme {
         HomeScreen(
-            snapWitchViewModel = SnapWitchViewModel(snapWitchRepository, dataStore)
+            snapWitchViewModel = SnapWitchViewModel(snapWitchRepository, dataStore),
+            onDatesRowClick = {}
         )
     }
 }
@@ -695,6 +705,10 @@ object SchedulerScreen : SnapWitchDestinations{
         navArgument(schedulerTypeArg){type = NavType.StringType}
     )
     val routeWithArgs = "${route}/{${schedulerTypeArg}}"
+}
+object StatisticsScreen : SnapWitchDestinations {
+    override val route: String = "statistics"
+    override val icon: ImageVector = Icons.Default.Star
 }
 
 
